@@ -1,4 +1,3 @@
-
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 
 import {
@@ -30,18 +29,27 @@ const searchInput = document.getElementById("searchInput");
 const formTitle = document.getElementById("formTitle");
 const saveBtn = document.getElementById("saveBtn");
 
+const homeSection = document.getElementById("homeSection");
+const formSection = document.getElementById("formSection");
+const categoryTitle = document.getElementById("categoryTitle");
+const backHomeBtn = document.getElementById("backHomeBtn");
+const showAddRecipeBtn = document.getElementById("showAddRecipeBtn");
+
 let recipes = [];
 let editRecipeId = null;
+let currentCategory = null;
 
 const recipesCollection = collection(db, "recipes");
 
 onSnapshot(recipesCollection, (snapshot) => {
+
 recipes = snapshot.docs.map(docItem => ({
 firebaseId: docItem.id,
 ...docItem.data()
 }));
 
 renderRecipes();
+
 });
 
 function renderRecipes() {
@@ -50,11 +58,20 @@ const searchText = searchInput.value.toLowerCase();
 
 recipesContainer.innerHTML = "";
 
-const filtered = recipes.filter(recipe =>
+const filtered = recipes.filter(recipe => {
+
+const matchesSearch =
 recipe.title.toLowerCase().includes(searchText) ||
 recipe.mealType.toLowerCase().includes(searchText) ||
-recipe.ingredients.toLowerCase().includes(searchText)
-);
+recipe.ingredients.toLowerCase().includes(searchText);
+
+const matchesCategory =
+currentCategory === null ||
+recipe.mealType === currentCategory;
+
+return matchesSearch && matchesCategory;
+
+});
 
 if (filtered.length === 0) {
 recipesContainer.innerHTML = "<p>No recipes found.</p>";
@@ -100,6 +117,7 @@ recipesContainer.appendChild(card);
 });
 
 setupButtons();
+
 }
 
 function setupButtons() {
@@ -111,16 +129,21 @@ button.addEventListener("click", async () => {
 await deleteDoc(doc(db, "recipes", button.dataset.id));
 
 });
+
 });
 
 document.querySelectorAll(".edit-btn").forEach(button => {
 
 button.addEventListener("click", () => {
 
+formSection.style.display = "block";
+
 editRecipe(button.dataset.id);
 
 });
+
 });
+
 }
 
 form.addEventListener("submit", async (e) => {
@@ -148,7 +171,9 @@ const existingImage = editRecipeId
 : "";
 
 await saveRecipe(existingImage);
+
 }
+
 });
 
 async function saveRecipe(imageData) {
@@ -178,6 +203,11 @@ await addDoc(recipesCollection, recipeData);
 }
 
 form.reset();
+
+formSection.style.display = "none";
+
+homeSection.style.display = "block";
+
 }
 
 function editRecipe(id) {
@@ -194,6 +224,47 @@ editRecipeId = id;
 
 formTitle.innerText = "Edit Recipe";
 saveBtn.innerText = "Update Recipe";
+
 }
 
 searchInput.addEventListener("input", renderRecipes);
+
+document.querySelectorAll(".category-btn").forEach(button => {
+
+button.addEventListener("click", () => {
+
+currentCategory = button.dataset.category;
+
+categoryTitle.innerText = currentCategory;
+
+homeSection.style.display = "none";
+
+formSection.style.display = "none";
+
+renderRecipes();
+
+});
+
+});
+
+showAddRecipeBtn.addEventListener("click", () => {
+
+homeSection.style.display = "none";
+
+formSection.style.display = "block";
+
+recipesContainer.innerHTML = "";
+
+});
+
+backHomeBtn.addEventListener("click", () => {
+
+currentCategory = null;
+
+homeSection.style.display = "block";
+
+formSection.style.display = "none";
+
+recipesContainer.innerHTML = "";
+
+});
