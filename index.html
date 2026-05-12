@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guesthouse Recipe Manager Online</title>
+<link rel="stylesheet" href="style.css">
+<script type="module" src="script.js"></script>
+</head>
+<body>
+
+<header>
+<h1>Guesthouse Recipe Manager</h1>
+<p>Online Cloud Version</p>
+</header>
+
+<main>
+
+<section class="form-section">
+
+<h2 id="formTitle">Add Recipe</h2>
+
+<form id="recipeForm">
+
+<input type="text" id="title" placeholder="Recipe name" required>
+
+<select id="mealType" required>
+<option value="">Select Meal Type</option>
+<option>Breakfast</option>
+<option>Dessert</option>
+<option>Sauce</option>
+<option>Soup</option>
+<option>Main Dish</option>
+<option>Bread</option>
+<option>Salad</option>
+</select>
+
+<label>Upload Photo</label>
+<input type="file" id="imageUpload" accept="image/*">
+
+<textarea id="ingredients" placeholder="Ingredients"></textarea>
+
+<textarea id="preparation" placeholder="Preparation"></textarea>
+
+<input type="text" id="video" placeholder="Video link">
+
+<button type="submit" id="saveBtn">Save Recipe</button>
+
+</form>
+
+</section>
+
+<section class="recipes-section">
+
+<div class="top-bar">
+<h2>Recipes</h2>
+<input type="text" id="searchInput" placeholder="Find recipe...">
+</div>
+
+<div id="recipesContainer"></div>
+
+</section>
+
+</main>
+
+</body>
+</html>
