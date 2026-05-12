@@ -16,7 +16,49 @@
 
 <main>
 
-<section class="form-section">
+<section class="home-section" id="homeSection">
+
+<h2>Recipe Categories</h2>
+
+<div class="categories-grid">
+
+<button class="category-btn" data-category="Breakfast">
+Breakfast
+</button>
+
+<button class="category-btn" data-category="Dessert">
+Dessert
+</button>
+
+<button class="category-btn" data-category="Sauce">
+Sauce
+</button>
+
+<button class="category-btn" data-category="Soup">
+Soup
+</button>
+
+<button class="category-btn" data-category="Main Dish">
+Main Dish
+</button>
+
+<button class="category-btn" data-category="Bread">
+Bread
+</button>
+
+<button class="category-btn" data-category="Salad">
+Salad
+</button>
+
+</div>
+
+<button id="showAddRecipeBtn" class="add-recipe-main-btn">
++ Add Recipe
+</button>
+
+</section>
+
+<section class="form-section" id="formSection" style="display:none;">
 
 <h2 id="formTitle">Add Recipe</h2>
 
@@ -53,8 +95,17 @@
 <section class="recipes-section">
 
 <div class="top-bar">
-<h2>Recipes</h2>
+
+<button id="backHomeBtn">
+← Home
+</button>
+
+<h2 id="categoryTitle">
+Recipes
+</h2>
+
 <input type="text" id="searchInput" placeholder="Find recipe...">
+
 </div>
 
 <div id="recipesContainer"></div>
